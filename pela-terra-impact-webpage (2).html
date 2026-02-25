@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impact — Pela Terra</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap');
+
+  :root {
+    --teal: #1a6b6b;
+    --teal-dark: #0f4a4a;
+    --teal-light: #e8f4f4;
+    --gold: #b5962a;
+    --text: #1c2b2b;
+    --text-light: #4a5e5e;
+    --white: #ffffff;
+    --off-white: #f8f6f1;
+    --border: #d4e4e4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); font-size: 16px; line-height: 1.7; }
+  h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(255,255,255,0.96); border-bottom: 1px solid var(--border);
+    padding: 14px 48px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-logo img { height: 40px; width: auto; }
+  nav ul { list-style: none; display: flex; gap: 32px; }
+  nav ul a { text-decoration: none; color: var(--text-light); font-size: 13px; transition: color 0.2s; }
+  nav ul a:hover { color: var(--teal); }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; align-items: flex-end; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center 60%; }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,35,35,0.88) 0%, rgba(10,35,35,0.25) 55%, rgba(10,35,35,0.05) 100%);
+  }
+  .hero-content { position: relative; z-index: 2; padding: 0 80px 80px; max-width: 860px; }
+  .hero-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(52px, 6vw, 84px); color: var(--white); line-height: 1.05; margin-bottom: 24px; }
+  .hero p { font-size: 19px; color: rgba(255,255,255,0.82); max-width: 620px; line-height: 1.65; font-weight: 300; }
+
+  /* SECTIONS */
+  section { padding: 96px 80px; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-eyebrow { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+  .section-heading { font-size: clamp(32px, 3.5vw, 46px); color: var(--teal-dark); margin-bottom: 32px; line-height: 1.2; }
+  .gold-rule { width: 48px; height: 2px; background: var(--gold); margin-bottom: 32px; }
+
+  /* VISION */
+  .vision { background: var(--off-white); }
+  .vision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .vision-text p { font-size: 17px; color: var(--text-light); margin-bottom: 18px; }
+  .vision-text p:last-child { margin-bottom: 0; }
+  .vision-text em { color: var(--teal-dark); font-style: italic; }
+  .vision-image { aspect-ratio: 4/5; border-radius: 2px; overflow: hidden; }
+  .vision-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* THEORY OF CHANGE */
+  .toc { background: var(--white); }
+  .toc-intro { max-width: 680px; margin-bottom: 48px; }
+  .toc-intro p { font-size: 17px; color: var(--text-light); margin-bottom: 16px; }
+  .toc-diagram { margin-bottom: 56px; }
+  .toc-diagram img { width: 100%; border-radius: 4px; display: block; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+  .toc-practices { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .practice-card { background: var(--off-white); border-left: 3px solid var(--gold); padding: 20px 24px; border-radius: 0 4px 4px 0; }
+  .practice-card p { font-size: 15px; color: var(--text-light); }
+  .practice-card strong { color: var(--teal-dark); }
+
+  /* SIX THEMES */
+  .themes { background: var(--teal-dark); }
+  .themes .section-heading { color: var(--white); }
+  .themes-intro { font-size: 17px; color: rgba(255,255,255,0.7); max-width: 640px; margin-bottom: 48px; }
+  .themes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+  .theme-card { background: rgba(255,255,255,0.05); padding: 36px 32px; border-top: 3px solid transparent; transition: background 0.2s, border-color 0.2s; }
+  .theme-card:hover { background: rgba(255,255,255,0.09); border-color: var(--gold); }
+  .theme-icon {
+    width: 40px; height: 40px; margin-bottom: 20px;
+    border: 1.5px solid rgba(255,255,255,0.25);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .theme-icon svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .theme-card h3 { font-size: 22px; color: var(--white); margin-bottom: 12px; }
+  .theme-card p { font-size: 14px; color: rgba(255,255,255,0.65); line-height: 1.7; margin-bottom: 16px; }
+  .theme-sdgs { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  .theme-sdgs img { height: 48px; width: 48px; object-fit: contain; border-radius: 4px; }
+
+  /* MEASUREMENT */
+  .measurement { background: var(--off-white); }
+  .measurement-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .measurement-text p { font-size: 17px; color: var(--text-light); margin-bottom: 20px; }
+  .kpi-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; font-weight: 500; }
+  .kpi-table { width: 100%; border-collapse: collapse; }
+  .kpi-table thead th { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--white); background: var(--teal); padding: 12px 16px; text-align: left; font-family: 'Inter', sans-serif; font-weight: 500; }
+  .kpi-table thead th:first-child { width: 120px; }
+  .kpi-table tbody tr { border-bottom: 1px solid var(--border); }
+  .kpi-table tbody tr:last-child { border-bottom: none; }
+  .kpi-table tbody td { padding: 11px 16px; font-size: 14px; color: var(--text-light); vertical-align: top; }
+  .kpi-table tbody td:first-child { font-weight: 600; color: var(--teal-dark); font-size: 13px; }
+  .kpi-table tbody tr:nth-child(even) td { background: rgba(26,107,107,0.04); }
+  .kpi-note { font-size: 13px; color: var(--text-light); margin-top: 14px; font-style: italic; }
+
+  /* DOCUMENTS */
+  .documents { background: var(--white); }
+  .doc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+  .doc-card { border: 1px solid var(--border); border-radius: 4px; padding: 36px 28px; display: flex; flex-direction: column; justify-content: space-between; transition: box-shadow 0.2s, border-color 0.2s; min-height: 200px; }
+  .doc-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); border-color: var(--teal); }
+  .doc-icon { font-size: 28px; margin-bottom: 20px; }
+  .doc-card h3 { font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; color: var(--teal-dark); margin-bottom: 8px; line-height: 1.4; }
+  .doc-card p { font-size: 13px; color: var(--text-light); margin-bottom: 28px; }
+  .doc-btn { display: inline-flex; align-items: center; gap: 8px; background: none; border: 1.5px solid var(--teal); color: var(--teal); padding: 10px 18px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; font-family: 'Inter', sans-serif; font-weight: 500; text-decoration: none; transition: background 0.2s, color 0.2s; align-self: flex-start; }
+  .doc-btn:hover { background: var(--teal); color: var(--white); }
+  .doc-btn::before { content: "↓ "; }
+
+  /* PARTNERS */
+  .partners { background: var(--off-white); padding: 64px 80px; }
+  .partners .section-inner { text-align: center; }
+  .partners-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--text-light); margin-bottom: 40px; }
+  .logo-strip { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 40px 52px; }
+  .logo-item { opacity: 0.5; transition: opacity 0.2s; filter: grayscale(100%); }
+  .logo-item:hover { opacity: 1; filter: none; }
+  .logo-placeholder { background: var(--border); border-radius: 3px; padding: 10px 20px; font-size: 12px; font-weight: 600; letter-spacing: 1px; color: var(--text-light); text-transform: uppercase; white-space: nowrap; }
+
+  /* CONTACT */
+  .contact { background: var(--teal); padding: 96px 80px; text-align: center; }
+  .contact h2 { color: var(--white); font-size: 42px; margin-bottom: 20px; }
+  .contact p { color: rgba(255,255,255,0.75); font-size: 17px; max-width: 640px; margin: 0 auto 14px; }
+  .contact-btn { display: inline-block; margin-top: 36px; background: var(--gold); color: var(--white); padding: 16px 40px; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; font-weight: 500; text-decoration: none; font-family: 'Inter', sans-serif; transition: background 0.2s; }
+  .contact-btn:hover { background: #9a7e22; }
+
+  /* FOOTER */
+  footer { background: var(--teal-dark); padding: 32px 80px; display: flex; justify-content: space-between; align-items: center; }
+  footer p { font-size: 12px; color: rgba(255,255,255,0.35); }
+  footer a { color: rgba(255,255,255,0.35); text-decoration: none; font-size: 12px; }
+  footer a:hover { color: rgba(255,255,255,0.7); }
+
+  @media (max-width: 900px) {
+    nav { padding: 14px 24px; }
+    nav ul { display: none; }
+    section, .partners, .contact, footer { padding-left: 24px; padding-right: 24px; }
+    .hero-content { padding: 0 24px 60px; }
+    .vision-grid, .measurement-grid { grid-template-columns: 1fr; }
+    .themes-grid { grid-template-columns: 1fr 1fr; }
+    .doc-grid { grid-template-columns: 1fr; }
+    .toc-practices { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<script>
+const LOGO_URL  = 'https://i.imgur.com/mioUwb8.jpeg';
+const HERO_URL  = 'https://i.imgur.com/mT2xy2A.jpeg';
+const FARM_URL  = 'https://i.imgur.com/UJhgeeU.jpeg';
+const TOC_URL   = 'https://i.imgur.com/Vtp5PZh.png';
+
+window.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('.nav-logo img').src = LOGO_URL;
+  document.querySelector('.hero-bg').style.backgroundImage = `url('${HERO_URL}')`;
+  const farmImg = document.querySelector('.vision-image img');
+  farmImg.src = FARM_URL;
+  farmImg.style.display = 'block';
+  document.querySelector('.toc-diagram img').src = TOC_URL;
+});
+</script>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <img src="" alt="Pela Terra">
+  </div>
+  <ul>
+    <li><a href="#vision">Our Vision</a></li>
+    <li><a href="#approach">Our Approach</a></li>
+    <li><a href="#themes">Impact Themes</a></li>
+    <li><a href="#measurement">Measurement</a></li>
+    <li><a href="#documents">Reports</a></li>
+    <li><a href="#contact">Get in Touch</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Pela Terra · Impact</p>
+    <h1>Agriculture<br>that gives back</h1>
+    <p>At Pela Terra we work to demonstrate that regenerative agriculture, applied at scale, can restore soils, protect biodiversity, conserve water, and support rural communities — while delivering competitive financial returns.</p>
+  </div>
+</section>
+
+<!-- VISION -->
+<section class="vision" id="vision">
+  <div class="section-inner">
+    <div class="vision-grid">
+      <div class="vision-text">
+        <p class="section-eyebrow">Our Vision</p>
+        <h2 class="section-heading">Why impact is at the heart of what we do</h2>
+        <div class="gold-rule"></div>
+        <p>Humans need food to survive. But modern agriculture is harming both the planet and those it feeds. It contributes to climate change, fuels biodiversity collapse, and produces less nutritious food — while remaining among the industries most exposed to the very climate risks it helps create.</p>
+        <p>At Pela Terra, we see this as both a problem and an opportunity. By applying regenerative approaches at scale on Portuguese farmland, we can begin to reverse the damage that decades of intensive agriculture have caused: rebuilding soil health, reducing chemical inputs, conserving water, protecting native species, and sequestering carbon.</p>
+        <p>In doing so we can produce the healthy food we need and secure more resilient returns for our investors.</p>
+        <p>The solution is literally in the ground beneath our feet.</p>
+      </div>
+      <div class="vision-image">
+        <img src="" alt="Olive harvest at dawn on a Pela Terra farm, Alentejo" style="display:none;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THEORY OF CHANGE -->
+<section class="toc" id="approach">
+  <div class="section-inner">
+    <p class="section-eyebrow">Our Approach</p>
+    <h2 class="section-heading">How we create impact</h2>
+    <div class="gold-rule"></div>
+    <div class="toc-intro">
+      <p>Soil health is the central thread connecting almost every form of environmental and social impact a farm can create. Healthy soil sequesters carbon, retains water, supports biodiversity, and produces more nutritious food. The damage wrought by conventional agriculture — intensive tillage, synthetic inputs, wasteful irrigation — is reversible.</p>
+      <p>By transitioning our farms towards regenerative practices, we set in motion a chain of positive outcomes: improved soil biology and structure; more carbon sequestration; reduced water consumption and runoff; thriving native flora and fauna; safer, more nutritious food; better, more resilient yields; and jobs and economic opportunity in rural Portugal.</p>
+    </div>
+    <div class="toc-diagram">
+      <img src="" alt="Pela Terra Theory of Change">
+    </div>
+    <h3 style="font-size:22px; color:var(--teal-dark); margin-bottom:24px;">The core practices we apply</h3>
+    <div class="toc-practices">
+      <div class="practice-card">
+        <p><strong>Replacing chemical inputs</strong> — we substitute synthetic fertilisers, herbicides and pesticides with organic alternatives such as manure, compost, and woodchips.</p>
+      </div>
+      <div class="practice-card">
+        <p><strong>Keeping the soil covered</strong> — cover crops protect soil between orchard rows. We also 'chop and drop', leaving pruning residues and organic matter on the ground.</p>
+      </div>
+      <div class="practice-card">
+        <p><strong>Managing land for biodiversity</strong> — we set aside areas of each property, unplanted but actively managed, to protect and restore native habitats and species.</p>
+      </div>
+      <div class="practice-card">
+        <p><strong>Precision irrigation</strong> — we ensure crops are only watered when they need to be, and as much as they need to be, reducing waste and pressure on local water tables.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIX THEMES -->
+<section class="themes" id="themes">
+  <div class="section-inner">
+    <p class="section-eyebrow">Impact Strategy</p>
+    <h2 class="section-heading">Six areas where we aim to make a difference</h2>
+    <div class="gold-rule" style="background:var(--gold);"></div>
+    <p class="themes-intro">Pela Terra's impact strategy is built around six interconnected themes, aligned with the UN Sustainable Development Goals and tracked using a set of fund-level KPIs.</p>
+    <div class="themes-grid">
+      <div class="theme-card">
+        <div class="theme-icon"><svg viewBox="0 0 24 24"><path d="M12 22V12m0 0C12 7 7 4 2 6c5 0 8 3 10 6zm0 0c0-5 5-8 10-6-5 0-8 3-10 6z"/></svg></div>
+        <h3>Soil</h3>
+        <p>Between 60 and 70 per cent of EU soils are estimated to be unhealthy; Portugal is among the regions most affected. We restore soil health through reduced tillage, cover cropping, organic inputs, and leaving organic residues on the ground, tracking progress through regular soil sampling across biological, chemical, and physical indicators.</p>
+        <div class="theme-sdgs">
+            <img src="https://i.imgur.com/aJKXpSZ.png" alt="SDG 2">
+            <img src="https://i.imgur.com/tCHqWlK.png" alt="SDG 3">
+            <img src="https://i.imgur.com/aPtScAG.png" alt="SDG 13">
+            <img src="https://i.imgur.com/GUEiTtG.png" alt="SDG 15">
+          </div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6 8 4 12 4 15a8 8 0 0016 0c0-3-2-7-8-13z"/></svg></div>
+        <h3>Water</h3>
+        <p>Agriculture accounts for approximately 70 per cent of global freshwater withdrawals, and the Iberian peninsula is one of Europe's most water-stressed regions. We apply precision irrigation, improve soil water retention, and restore native vegetation along waterways to reduce runoff and protect water quality.</p>
+        <div class="theme-sdgs">
+            <img src="https://i.imgur.com/0qW0r4g.png" alt="SDG 6">
+            <img src="https://i.imgur.com/GUEiTtG.png" alt="SDG 15">
+          </div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2m-3.5-6.5-1.5 1.5M5.5 18.5l1.5-1.5m0-13 1.5 1.5M18.5 18.5l-1.5-1.5"/></svg></div>
+        <h3>Climate</h3>
+        <p>Agriculture and land use are among the largest sources of global greenhouse gas emissions. By improving soil health, our farms sequester increasing quantities of carbon in both soil and biomass. By reducing synthetic inputs and transitioning to renewable energy, we work towards a positive greenhouse gas balance — sequestering more than we emit.</p>
+        <div class="theme-sdgs">
+            <img src="https://i.imgur.com/4KWJVIy.png" alt="SDG 7">
+            <img src="https://i.imgur.com/aPtScAG.png" alt="SDG 13">
+          </div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon"><svg viewBox="0 0 24 24"><path d="M3 9l4-4 4 4 4-4 4 4M3 15l4-4 4 4 4-4 4 4"/></svg></div>
+        <h3>Biodiversity</h3>
+        <p>Portugal is home to rich biodiversity, with over 3,500 species of plants and numerous important animal species. Intensive agriculture drives biodiversity loss through habitat destruction, chemical pollution, and water abstraction. We work to reverse this by setting aside land for nature, creating habitat connectivity, and implementing targeted species conservation plans.</p>
+        <div class="theme-sdgs">
+            <img src="https://i.imgur.com/tCHqWlK.png" alt="SDG 3">
+            <img src="https://i.imgur.com/GUEiTtG.png" alt="SDG 15">
+          </div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon"><svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 100-18 9 9 0 000 18z"/><path d="M8 12s1 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg></div>
+        <h3>Human Health</h3>
+        <p>Pesticide residues and nutritional loss in depleted soils are measurable health risks — made worse by climate change, which reduces the concentration of proteins and micronutrients in food. By reducing chemical inputs and improving soil health, we aim to produce food that is safer and more nutritious, and we work with partners to research the links between regenerative agriculture and human health outcomes.</p>
+        <div class="theme-sdgs">
+            <img src="https://i.imgur.com/aJKXpSZ.png" alt="SDG 2">
+            <img src="https://i.imgur.com/tCHqWlK.png" alt="SDG 3">
+          </div>
+      </div>
+      <div class="theme-card">
+        <div class="theme-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <h3>Society</h3>
+        <p>Pela Terra funds invest 100% of their capital in rural areas of Portugal — areas that have traditionally faced significant challenges of depopulation and economic decline. We create direct employment, support local supply chains, and demonstrate to landowners, investors, and policymakers that profitable regenerative agriculture is achievable in the Portuguese context.</p>
+        <div class="theme-sdgs">
+            <img src="https://i.imgur.com/NnnF4FQ.png" alt="SDG 8">
+            <img src="https://i.imgur.com/hjNOEhD.png" alt="SDG 12">
+          </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEASUREMENT -->
+<section class="measurement" id="measurement">
+  <div class="section-inner">
+    <p class="section-eyebrow">Measurement</p>
+    <h2 class="section-heading">Rigorous measurement, honest reporting</h2>
+    <div class="gold-rule"></div>
+    <div class="measurement-grid">
+      <div class="measurement-text">
+        <p>Claims about impact must be grounded in evidence. For each fund, we have developed a set of long-term KPIs designed with input from partners, farm operators, and external experts — combining input indicators directly within our control with outcome indicators that track real-world change.</p>
+        <p>We establish baselines for each property at acquisition and report progress annually, including an honest assessment of where further work is needed. On the ground, our partners NBI and AgroSystemic conduct soil sampling, ecological surveys, habitat assessments, and agronomic monitoring, complemented by drone and satellite imagery.</p>
+        <p>We are committed to making our measurement methodology more robust over time. Our annual impact reports give a full account of progress.</p>
+      </div>
+      <div>
+        <p class="kpi-label">By 2030, we are committed to achieving:</p>
+        <table class="kpi-table">
+          <thead><tr><th>Theme</th><th>Target</th></tr></thead>
+          <tbody>
+            <tr><td>Soil</td><td>20% average improvement in soil health indicators across all assets</td></tr>
+            <tr><td>Water</td><td>10% decrease in water wastage through more efficient irrigation</td></tr>
+            <tr><td>Climate</td><td>30% reduction in synthetic fertiliser inputs per hectare</td></tr>
+            <tr><td>Climate</td><td>Net negative greenhouse gas emissions per hectare</td></tr>
+            <tr><td>Biodiversity</td><td>Reduce herbicide use by 30%</td></tr>
+            <tr><td>Biodiversity</td><td>Reduce pesticide use by 20%</td></tr>
+            <tr><td>Biodiversity</td><td>Net positive biodiversity across all assets (vs. baseline)</td></tr>
+            <tr><td>Biodiversity</td><td>At least 20% of total land managed primarily for biodiversity</td></tr>
+            <tr><td>Human Health</td><td>10% increase in nutrient density of all produce at harvest</td></tr>
+            <tr><td>Human Health</td><td>Pesticide residues on all produce below 50% of EU Maximum Residue Limits</td></tr>
+            <tr><td>Society</td><td>100% of capital invested in rural areas of Portugal</td></tr>
+            <tr><td>Society</td><td>Create 5 good jobs in rural areas of Portugal</td></tr>
+          </tbody>
+        </table>
+        <p class="kpi-note">Full methodology and baseline data in our annual impact reports.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section class="documents" id="documents">
+  <div class="section-inner">
+    <p class="section-eyebrow">Downloads</p>
+    <h2 class="section-heading">Documents</h2>
+    <div class="gold-rule"></div>
+    <div class="doc-grid">
+      <div class="doc-card">
+        <div>
+          <div class="doc-icon">📄</div>
+          <h3>Pela Terra Farmland Impact Report</h3>
+          <p>Annual impact report covering strategy, baselines, and progress across all six themes.</p>
+        </div>
+        <a href="#" class="doc-btn">Download PDF</a>
+      </div>
+      <div class="doc-card">
+        <div>
+          <div class="doc-icon">📄</div>
+          <h3>Pela Terra II: Regenerate Impact Report</h3>
+          <p>Impact statement and initial report for Pela Terra's second fund.</p>
+        </div>
+        <a href="#" class="doc-btn">Download PDF</a>
+      </div>
+      <div class="doc-card">
+        <div>
+          <div class="doc-icon">📄</div>
+          <h3>Pela Terra Theory of Change</h3>
+          <p>The full theory of change underpinning Pela Terra's approach to regenerative agriculture investment.</p>
+        </div>
+        <a href="#" class="doc-btn">Download PDF</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners" id="partners">
+  <div class="section-inner">
+    <p class="partners-label">Who we work with</p>
+    <div class="logo-strip">
+      <div class="logo-item"><img src="https://i.imgur.com/GlYrt9R.png" alt="NBI" style="height:50px; width:auto;"></div>
+      <div class="logo-item"><img src="https://i.imgur.com/8E0ryin.png" alt="AgroSystemic" style="height:44px; width:auto;"></div>
+      <div class="logo-item"><img src="https://i.imgur.com/wTizOwY.png" alt="EIT Food" style="height:44px; width:auto;"></div>
+      <div class="logo-item"><img src="https://i.imgur.com/6DWj3Xy.png" alt="Green Assist" style="height:44px; width:auto;"></div>
+      <div class="logo-item"><img src="https://i.imgur.com/9XyVaj4.png" alt="LIFE" style="height:44px; width:auto;"></div>
+      <div class="logo-item"><img src="https://i.imgur.com/M2AbBB5.png" alt="Mediterranean Almond Coalition" style="height:44px; width:auto;"></div>
+      <div class="logo-item"><img src="https://i.imgur.com/m3pIDQ6.png" alt="Terra Madre" style="height:44px; width:auto;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="section-inner">
+    <h2>Get in touch</h2>
+    <p>At Pela Terra, we believe that regenerative farmers are stronger together. We're constantly working to build an ecosystem that supports the development of regenerative agriculture in Portugal.</p>
+    <p>We collaborate and share information with partners, farm operators, government, and other fund managers to ensure that everyone can benefit from the knowledge we generate.</p>
+    <p>If you have a partnership idea, we'd love to hear about it.</p>
+    <a href="mailto:welcome@pelaterra.com" class="contact-btn">welcome@pelaterra.com</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Pela Terra. All rights reserved.</p>
+  <a href="https://www.pelaterra.com">www.pelaterra.com</a>
+</footer>
+
+</body>
+</html>
