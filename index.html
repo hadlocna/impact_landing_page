@@ -9,7 +9,7 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -53,49 +53,201 @@
     /* Reveal Animation Classes */
     .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
     .reveal.active { opacity: 1; transform: translateY(0); }
+
+    /* ── Site Header ─────────────────────────────────────────────── */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: #ffffff;
+      border-bottom: 1px solid #e8e8e8;
+      transition: box-shadow 0.25s ease;
+    }
+    .site-header.scrolled {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .header-logo img {
+      height: 44px;
+      width: auto;
+      display: block;
+    }
+    .header-nav-desktop {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex: 1;
+      justify-content: center;
+    }
+    .header-nav-desktop a {
+      font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+      font-size: 15px;
+      color: #333333;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.2s ease;
+    }
+    .header-nav-desktop a:hover,
+    .header-nav-desktop a.active {
+      color: #2D5016;
+    }
+    .header-cta {
+      font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      color: #ffffff;
+      background: #2D5016;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: background 0.2s ease;
+    }
+    .header-cta:hover {
+      background: #1F3A0F;
+    }
+    .header-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+    .header-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: #333333;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+    /* hamburger → X animation */
+    .header-hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .header-hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .header-hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: #ffffff;
+      border-top: 1px solid #e8e8e8;
+      padding: 16px 24px 24px;
+      gap: 4px;
+    }
+    .mobile-menu.open {
+      display: flex;
+    }
+    .mobile-menu a {
+      font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      color: #333333;
+      text-decoration: none;
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+      transition: color 0.2s ease;
+    }
+    .mobile-menu a:last-child {
+      border-bottom: none;
+    }
+    .mobile-menu a:hover {
+      color: #2D5016;
+    }
+    .mobile-menu .mobile-cta {
+      margin-top: 12px;
+      color: #2D5016;
+      font-weight: 600;
+      border-bottom: none;
+    }
+    .mobile-menu .mobile-cta:hover {
+      color: #1F3A0F;
+    }
+    /* Responsive: hide desktop nav/CTA, show hamburger on <992px */
+    @media (max-width: 991px) {
+      .header-container {
+        padding: 0 24px;
+      }
+      .header-nav-desktop,
+      .header-cta {
+        display: none;
+      }
+      .header-hamburger {
+        display: flex;
+      }
+    }
   </style>
 </head>
 <body class="font-sans text-brand-dark bg-white antialiased leading-relaxed overflow-x-hidden">
 
-  <!-- NAVIGATION -->
-  <nav class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-brand-border">
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 flex items-center justify-between h-20">
-      <a href="/index.html" class="flex-shrink-0 transition-opacity hover:opacity-80">
-        <img src="images/mioUwb8.jpeg" alt="Pela Terra" class="h-9 sm:h-10 w-auto">
+  <!-- SITE HEADER -->
+  <header class="site-header" id="site-header">
+    <div class="header-container">
+      <!-- Logo -->
+      <a href="https://www.pelaterra.com/" class="header-logo">
+        <img src="https://impact.pelaterra.com/images/mioUwb8.jpeg" alt="Pela Terra">
       </a>
-      
-      <!-- Desktop Menu -->
-      <ul class="hidden md:flex items-center space-x-8">
-        <li><a href="#vision" class="text-sm font-medium text-brand-gray hover:text-brand-teal transition-colors">Our Vision</a></li>
-        <li><a href="#approach" class="text-sm font-medium text-brand-gray hover:text-brand-teal transition-colors">Our Approach</a></li>
-        <li><a href="#themes" class="text-sm font-medium text-brand-gray hover:text-brand-teal transition-colors">Impact Themes</a></li>
-        <li><a href="#measurement" class="text-sm font-medium text-brand-gray hover:text-brand-teal transition-colors">Measurement</a></li>
-        <li><a href="#documents" class="text-sm font-medium text-brand-gray hover:text-brand-teal transition-colors">Reports</a></li>
-        <li><a href="#contact" class="px-5 py-2.5 bg-brand-teal text-white text-sm font-medium rounded hover:bg-brand-teal-dark transition-colors">Get in Touch</a></li>
-      </ul>
 
-      <!-- Mobile Menu Button -->
-      <button id="mobile-menu-btn" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden text-brand-dark hover:text-brand-teal transition-colors p-2">
-        <i id="menu-open-icon" data-lucide="menu" class="w-6 h-6"></i>
-        <i id="menu-close-icon" data-lucide="x" class="w-6 h-6 hidden"></i>
+      <!-- Desktop Nav -->
+      <nav class="header-nav-desktop">
+        <a href="https://www.pelaterra.com/#golden-visa">Golden Visa</a>
+        <a href="https://www.pelaterra.com/#how-it-works">How It Works</a>
+        <a href="https://www.pelaterra.com/#who-qualifies">Who Qualifies</a>
+        <a href="https://www.pelaterra.com/#why-us">Why Us</a>
+        <a href="https://www.pelaterra.com/#faqs">FAQs</a>
+        <a href="https://www.pelaterra.com/resources">Resources</a>
+      </nav>
+
+      <!-- Desktop CTA -->
+      <a href="https://www.pelaterra.com/#book-consultation" class="header-cta">
+        Schedule a Consultation
+      </a>
+
+      <!-- Mobile Hamburger -->
+      <button class="header-hamburger" id="header-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
       </button>
     </div>
 
-    <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-brand-border absolute top-full left-0 w-full shadow-lg">
-      <ul class="flex flex-col px-4 sm:px-6 py-4 space-y-3">
-        <li><a href="#vision" class="mobile-link block text-base font-medium text-brand-gray hover:text-brand-teal">Our Vision</a></li>
-        <li><a href="#approach" class="mobile-link block text-base font-medium text-brand-gray hover:text-brand-teal">Our Approach</a></li>
-        <li><a href="#themes" class="mobile-link block text-base font-medium text-brand-gray hover:text-brand-teal">Impact Themes</a></li>
-        <li><a href="#measurement" class="mobile-link block text-base font-medium text-brand-gray hover:text-brand-teal">Measurement</a></li>
-        <li><a href="#documents" class="mobile-link block text-base font-medium text-brand-gray hover:text-brand-teal">Reports</a></li>
-        <li><a href="#contact" class="mobile-link block text-base font-medium text-brand-teal font-semibold">Get in Touch &rarr;</a></li>
-      </ul>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu" role="navigation" aria-label="Mobile navigation">
+      <a href="https://www.pelaterra.com/#golden-visa">Golden Visa</a>
+      <a href="https://www.pelaterra.com/#how-it-works">How It Works</a>
+      <a href="https://www.pelaterra.com/#who-qualifies">Who Qualifies</a>
+      <a href="https://www.pelaterra.com/#why-us">Why Us</a>
+      <a href="https://www.pelaterra.com/#faqs">FAQs</a>
+      <a href="https://www.pelaterra.com/resources">Resources</a>
+      <a href="https://www.pelaterra.com/#book-consultation" class="mobile-cta">
+        Schedule a Consultation &rarr;
+      </a>
     </div>
-  </nav>
+  </header>
 
   <!-- HERO -->
-  <section id="top" class="relative min-h-screen flex items-end overflow-hidden pt-16 pb-16 lg:pb-24">
+  <section id="top" class="relative min-h-screen flex items-end overflow-hidden pt-20 pb-16 lg:pb-24" style="padding-top: 76px;">
     <!-- Background Image -->
     <div class="absolute inset-0 bg-cover bg-center transform scale-105 transition-transform duration-1000" style="background-image: url('images/mT2xy2A.jpeg'); background-position: center 60%;"></div>
     <!-- Gradient Overlay -->
@@ -513,40 +665,37 @@
 
   <!-- Interactive Scripts -->
   <script>
-    // Initialize Lucide Icons
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    const links = document.querySelectorAll('.mobile-link');
-    const openIcon = document.getElementById('menu-open-icon');
-    const closeIcon = document.getElementById('menu-close-icon');
+    // ── Site Header ──────────────────────────────────────────────
+    const siteHeader = document.getElementById('site-header');
+    const hamburger = document.getElementById('header-hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-    const setMenuState = (isOpen) => {
-      menu.classList.toggle('hidden', !isOpen);
-      if (menuBtn) {
-        menuBtn.setAttribute('aria-expanded', String(isOpen));
-      }
-      if (openIcon && closeIcon) {
-        openIcon.classList.toggle('hidden', isOpen);
-        closeIcon.classList.toggle('hidden', !isOpen);
-      }
+    // Scroll shadow
+    window.addEventListener('scroll', () => {
+      siteHeader.classList.toggle('scrolled', window.scrollY > 8);
+    });
+
+    // Hamburger toggle
+    const openMobileMenu = (isOpen) => {
+      hamburger.classList.toggle('open', isOpen);
+      mobileMenu.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', String(isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     };
 
-    if (menuBtn && menu) {
-      menuBtn.addEventListener('click', () => {
-        const willOpen = menu.classList.contains('hidden');
-        setMenuState(willOpen);
+    if (hamburger && mobileMenu) {
+      hamburger.addEventListener('click', () => {
+        openMobileMenu(!mobileMenu.classList.contains('open'));
       });
 
-      links.forEach(link => {
-        link.addEventListener('click', () => {
-          setMenuState(false);
-        });
+      // Close menu when any mobile link is tapped
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => openMobileMenu(false));
       });
 
+      // Close menu on resize to desktop
       window.addEventListener('resize', () => {
-        if (window.innerWidth >= 768) {
-          setMenuState(false);
-        }
+        if (window.innerWidth >= 992) openMobileMenu(false);
       });
     }
 
