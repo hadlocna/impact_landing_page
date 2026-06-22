@@ -1,0 +1,22 @@
+---
+// Full-bleed "stat splash" hero. Body content (kicker, stat, heading, copy) is
+// passed as a slot so the same shell serves both the headline stats and the
+// portfolio estate intros. `light` switches to the cream variant; `bgStyle`
+// appends extra declarations to the background layer (opacity / positioning).
+interface Props {
+  section: string;
+  bg: string;
+  bgStyle?: string;
+  light?: boolean;
+}
+const { section, bg, bgStyle = '', light = false } = Astro.props;
+const cls = light ? 'hero light' : 'hero';
+const bgFull = `background-image:url('${bg}')${bgStyle ? ';' + bgStyle : ''}`;
+---
+<section class={cls} data-section={section}>
+  <div class="hero__bg" style={bgFull}></div>
+  <div class="hero__scrim"></div>
+  <div class="hero__inner reveal">
+    <slot />
+  </div>
+</section>

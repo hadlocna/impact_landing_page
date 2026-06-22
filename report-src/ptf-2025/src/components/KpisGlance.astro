@@ -1,0 +1,50 @@
+---
+import Divider from './Divider.astro';
+---
+<Divider
+  id="sec-4"
+  section="IV · Our KPIs at a Glance"
+  num="Section IV"
+  title="Our KPIs at a Glance"
+  bg="images/biodiversity.jpg"
+/>
+
+<section class="section" data-section="IV · Our KPIs at a Glance">
+  <div class="wide">
+    <div class="kpi-glance reveal">
+      <div class="wrap" style="padding-inline:0">
+        <p class="eyebrow">IV · Our KPIs at a Glance</p>
+        <h3 style="font-size:clamp(1.4rem,3vw,1.9rem)">By 2030, we will:</h3>
+      </div>
+      <div class="kpi-glance__cols">
+        <table class="kpi-table kpi-compact">
+          <thead><tr><th style="width:8.5rem">Theme</th><th>2030 target</th><th style="width:4.5rem;text-align:center">2025</th></tr></thead>
+          <tbody>
+            <tr><td class="theme">Soil</td><td class="target">Achieve an average 20% improvement in soil health indicators on all assets.</td><td class="status rag"><span class="dot rag-ontrack" title="On track to achieve"></span></td></tr>
+            <tr><td class="theme">Water</td><td class="target">Achieve a 10% decrease in water wastage through more efficient irrigation.</td><td class="status rag"><span class="dot rag-achieved" title="Achieved"></span></td></tr>
+            <tr><td class="theme">Climate</td><td class="target">Reduce synthetic fertiliser inputs by 30% on a per-hectare basis.</td><td class="status rag"><span class="dot rag-ontrack" title="On track to achieve"></span></td></tr>
+            <tr><td class="theme">Climate</td><td class="target">Achieve net negative greenhouse gas emissions on a per-hectare level.</td><td class="status rag"><span class="dot rag-tbd" title="Baseline not yet defined / insufficiently defined to allow tracking"></span></td></tr>
+            <tr><td class="theme">Biodiversity</td><td class="target">Reduce herbicide use by 30%.</td><td class="status rag"><span class="dot rag-ontrack" title="On track to achieve"></span></td></tr>
+            <tr><td class="theme">Biodiversity</td><td class="target">Reduce pesticide use by 20%.</td><td class="status rag"><span class="dot rag-risk" title="Risk of not achieving / negative progress from baseline"></span></td></tr>
+            <tr><td class="theme">Biodiversity</td><td class="target">Achieve net positive biodiversity for all assets (improvement vs. baseline).</td><td class="status rag"><span class="dot rag-ontrack" title="On track to achieve"></span></td></tr>
+            <tr><td class="theme">Biodiversity</td><td class="target">Set aside at least 20% of the total area of land under our management and manage primarily for biodiversity.</td><td class="status rag"><span class="dot rag-achieved" title="Achieved"></span></td></tr>
+            <tr><td class="theme">Human Health</td><td class="target">Achieve a 10% increase in nutrient density levels of all produce at harvest.</td><td class="status rag"><span class="dot rag-tbd" title="Baseline not yet defined / insufficiently defined to allow tracking"></span></td></tr>
+            <tr><td class="theme">Human Health</td><td class="target">Reduce pesticide residues on all produce at harvest to under 50% of the EU's Maximum Residue Limits (MRLs).</td><td class="status rag"><span class="dot rag-ontrack" title="On track to achieve"></span></td></tr>
+            <tr><td class="theme">Society</td><td class="target">Make 100% of our capital investments in rural areas of Portugal.</td><td class="status rag"><span class="dot rag-achieved" title="Achieved"></span></td></tr>
+            <tr><td class="theme">Society</td><td class="target">Create 5 good jobs in rural areas of Portugal.</td><td class="status rag"><span class="dot rag-achieved" title="Achieved"></span></td></tr>
+          </tbody>
+        </table>
+        <aside class="rag-key">
+          <p class="rag-key__head">2025 Status — RAG</p>
+          <ul class="rag-key__list">
+            <li><span class="dot rag-achieved"></span><span><b>Achieved</b></span></li>
+            <li><span class="dot rag-ontrack"></span><span><b>On track</b>to achieve.</span></li>
+            <li><span class="dot rag-risk"></span><span><b>At risk</b>of not achieving, or negative progress from baseline.</span></li>
+            <li><span class="dot rag-tbd"></span><span><b>Baseline pending</b>not yet defined, or insufficiently defined to allow tracking.</span></li>
+          </ul>
+          <p class="rag-key__note">Full status of every KPI is set out in detail in Section X.</p>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
