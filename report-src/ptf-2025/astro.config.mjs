@@ -2,8 +2,8 @@ import { defineConfig } from 'astro/config';
 
 // The report is served as static files from impact.pelaterra.com/impactreports/2025/ptf.
 // Build straight into that directory so Coolify serves the generated output unchanged.
-// CSS / JS / images live in public/ and are referenced with relative paths, so the
-// output works at the /impactreports/2025/ptf/ sub-path without a configured `base`.
+// CSS / JS / images live in public/ and are referenced with root-absolute paths so
+// the output still works when the page is opened without a trailing slash.
 export default defineConfig({
   outDir: '../../impactreports/2025/ptf',
   build: {
