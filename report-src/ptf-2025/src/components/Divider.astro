@@ -1,0 +1,22 @@
+---
+// Full-bleed section divider with a parallax background image. Used to open each
+// of the report's twelve numbered sections.
+interface Props {
+  id?: string;
+  section: string; // data-section + data-screen-label (e.g. "I · Foreword")
+  num: string; // small kicker, e.g. "Section I"
+  title: string; // the <h2>
+  bg: string; // background image path
+  subtitle?: string; // optional italic line beneath the title
+}
+const { id, section, num, title, bg, subtitle } = Astro.props;
+---
+<section class="divider" id={id} data-screen-label={section} data-section={section}>
+  <div class="divider__bg" style={`background-image:url('${bg}')`}></div>
+  <div class="divider__scrim"></div>
+  <div class="divider__inner reveal">
+    <div class="num">{num}</div>
+    <h2>{title}</h2>
+    {subtitle && <p>{subtitle}</p>}
+  </div>
+</section>
