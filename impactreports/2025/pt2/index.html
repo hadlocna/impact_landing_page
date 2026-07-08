@@ -11,19 +11,63 @@
 <style>
   html,body{margin:0;padding:0;}
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth;scroll-padding-top:72px;}
   @keyframes wfcue{0%,100%{opacity:.3;transform:scaleY(.5);}50%{opacity:1;transform:scaleY(1);}}
 
   @media (prefers-reduced-motion:no-preference){
     html.rpt-anim [data-anim]{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1);}
     html.rpt-anim [data-anim].rpt-in{opacity:1;transform:none;}
   }
+
+  /* ---- top navigation bar ---- */
+  #rpt-topbar{position:fixed;top:0;left:0;right:0;z-index:110;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px clamp(20px,5vw,64px);background:rgba(250,247,240,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid #e7ddca;transform:translateY(-110%);transition:transform .45s cubic-bezier(.16,.84,.44,1);}
+  #rpt-topbar.show{transform:translateY(0);}
+  #rpt-topbar .tb-title{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#4c5a55;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  #rpt-topbar .tb-title b{color:#0f4a4a;font-weight:600;}
+  #rpt-topbar .tb-current{font-family:'Playfair Display',serif;font-style:italic;color:#b08b3f;font-size:13px;margin-left:12px;text-transform:none;letter-spacing:0;}
+  #rpt-menuBtn{flex:none;display:inline-flex;align-items:center;gap:9px;background:none;border:1px solid #e0d7c4;border-radius:999px;padding:8px 16px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#0f4a4a;cursor:pointer;transition:background .25s,color .25s,border-color .25s;}
+  #rpt-menuBtn:hover{background:#0f4a4a;color:#fff;border-color:#0f4a4a;}
+  #rpt-menuBtn .bars{display:inline-grid;gap:3px;}
+  #rpt-menuBtn .bars i{width:16px;height:1.5px;background:currentColor;display:block;}
+  @media (max-width:640px){ #rpt-topbar .tb-current{display:none;} }
+  /* ---- contents overlay ---- */
+  #rpt-overlay{position:fixed;inset:0;z-index:130;background:rgba(10,35,35,.97);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .4s;overflow-y:auto;}
+  #rpt-overlay.open{opacity:1;pointer-events:auto;}
+  #rpt-overlay .ov-inner{max-width:900px;margin:0 auto;padding:clamp(60px,10vh,120px) clamp(20px,5vw,64px) 60px;}
+  #rpt-overlay .ov-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:30px;}
+  #rpt-overlay .ov-head span{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#d8b25f;}
+  #rpt-ovClose{background:none;border:0;color:rgba(255,255,255,.7);font-size:30px;line-height:1;cursor:pointer;transition:color .2s,transform .3s;}
+  #rpt-ovClose:hover{color:#fff;transform:rotate(90deg);}
+  #rpt-ovNav .ov-link{display:grid;grid-template-columns:3rem 1fr auto;gap:18px;align-items:baseline;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.12);text-decoration:none;}
+  #rpt-ovNav .ov-link span{transition:transform .3s cubic-bezier(.16,.84,.44,1),color .2s;}
+  #rpt-ovNav .ov-rn{font-family:'JetBrains Mono',monospace;color:#d8b25f;font-size:14px;}
+  #rpt-ovNav .ov-ti{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,2.4vw,1.7rem);color:#fff;}
+  #rpt-ovNav .ov-ar{font-family:'JetBrains Mono',monospace;font-size:13px;color:rgba(255,255,255,.45);}
+  #rpt-ovNav .ov-link:hover .ov-ti{color:#d8b25f;transform:translateX(8px);}
+  #rpt-ovNav .ov-link:hover .ov-ar{color:#d8b25f;transform:translateX(6px);}
+  /* ---- in-page Contents hover ---- */
+  .toc-link{transition:background .3s cubic-bezier(.16,.84,.44,1);}
+  .toc-link span{transition:transform .3s cubic-bezier(.16,.84,.44,1),color .2s;}
+  .toc-link:hover{background:#f1e9da;}
+  .toc-link:hover span:nth-child(2){transform:translateX(8px);color:#b08b3f!important;}
+  .toc-link:hover span:last-child{transform:translateX(6px);color:#b08b3f!important;}
 </style>
 </head>
 <body style="margin:0;">
 <div style="background:#faf7f0;font-family:'Libre Franklin',system-ui,sans-serif;color:#1b2b27;line-height:1.62;font-size:17px;-webkit-font-smoothing:antialiased;">
 
 <div style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#b08b3f,#d8b25f);z-index:120;" id="rep-progress"></div>
+
+<header id="rpt-topbar">
+  <div class="tb-title"><b>Pela Terra II</b> · 2025 Impact Report<span class="tb-current" id="rpt-tbCurrent"></span></div>
+  <button id="rpt-menuBtn" type="button" aria-label="Open contents"><span class="bars"><i></i><i></i><i></i></span>Contents</button>
+</header>
+<div id="rpt-overlay" role="dialog" aria-modal="true" aria-label="Contents">
+  <div class="ov-inner">
+    <div class="ov-head"><span>Contents</span><button id="rpt-ovClose" type="button" aria-label="Close contents">&times;</button></div>
+    <nav id="rpt-ovNav"></nav>
+  </div>
+</div>
 
 <!-- ============================ COVER ============================ -->
 <section data-screen-label="Cover" style="position:relative;min-height:100vh;background:#0a2323;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;padding:0 clamp(20px,5vw,64px) clamp(72px,12vh,130px);">
@@ -50,24 +94,24 @@
     <p style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:#b08b3f;font-weight:500;margin:0 0 16px;">Contents</p>
     <hr style="width:56px;height:2px;background:#b08b3f;border:0;margin:0 0 8px;">
     <nav>
-      <a href="#sec-foreword" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">01</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Foreword from the Advisory Committee</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-exec" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">02</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Executive Summary</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-headlines" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">03</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">2025 Headlines</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-kpi-glance" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">04</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our KPIs at a Glance</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-sdg" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">05</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">UN SDGs and GIIN IRIS+ Impact Categories Targeted</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-portfolio" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">06</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our Portfolio</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-impact" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">07</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">How We Create Impact</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-regen" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">08</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">What is Regenerative Agriculture?</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-theory" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">09</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our Theory of Change</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-approach" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">10</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our Investment Approach – Growing Resilience</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-measure" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">11</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">How We Measure Our Impact</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-themes" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">12</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our Six Impact Themes</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-deepdive" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">13</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Deep Dive: Biodiversity Baselines on New Assets</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-strategy" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">14</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Fund-Level Agroeconomic Strategy &amp; Farm-Level Management Plans</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-kpi-detail" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">15</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our KPIs in Detail</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-indicators" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">16</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Impact Indicators</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-roadmap" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">17</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Roadmap for the Future</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
-      <a href="#sec-biblio" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">18</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Bibliography</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-foreword" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">01</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Foreword from the Advisory Committee</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-exec" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">02</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Executive Summary</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-headlines" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">03</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">2025 Headlines</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-kpi-glance" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">04</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our KPIs at a Glance</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-sdg" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">05</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">UN SDGs and GIIN IRIS+ Impact Categories Targeted</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-portfolio" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">06</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our Portfolio</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-impact" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">07</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">How We Create Impact</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-regen" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">08</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">What is Regenerative Agriculture?</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-theory" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">09</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our Theory of Change</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-approach" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">10</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our Investment Approach – Growing Resilience</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-measure" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">11</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">How We Measure Our Impact</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-themes" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">12</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our Six Impact Themes</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-deepdive" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">13</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Deep Dive: Biodiversity Baselines on New Assets</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-strategy" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">14</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Fund-Level Agroeconomic Strategy &amp; Farm-Level Management Plans</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-kpi-detail" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">15</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Our KPIs in Detail</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-indicators" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">16</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Impact Indicators</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-roadmap" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">17</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Roadmap for the Future</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
+      <a href="#sec-biblio" class="toc-link" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;border-bottom:1px solid #e7ddca;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">18</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Bibliography</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
       <a href="#sec-disclaimer" style="display:grid;grid-template-columns:2.8rem 1fr auto;gap:16px;align-items:baseline;padding:15px 4px;text-decoration:none;"><span style="font-family:'JetBrains Mono',monospace;color:#b08b3f;font-size:14px;">19</span><span style="font-family:'Playfair Display',serif;font-size:clamp(1.05rem,2vw,1.35rem);color:#0f4a4a;">Disclaimer</span><span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#9a8e6d;">→</span></a>
     </nav>
   </div>
@@ -1225,6 +1269,44 @@ Total 3.744</td><td style="padding:9px 10px;border-bottom:1px solid #ece6d8;vert
   if(!bar)return;
   function upd(){var h=document.documentElement;var max=h.scrollHeight-h.clientHeight;bar.style.width=(max>0?(h.scrollTop/max)*100:0)+'%';}
   window.addEventListener('scroll',upd,{passive:true});upd();
+})();
+</script>
+<script>
+(function(){
+  var topbar=document.getElementById('rpt-topbar'), current=document.getElementById('rpt-tbCurrent');
+  var overlay=document.getElementById('rpt-overlay'), menuBtn=document.getElementById('rpt-menuBtn');
+  var ovClose=document.getElementById('rpt-ovClose'), ovNav=document.getElementById('rpt-ovNav');
+  var cover=document.querySelector('[data-screen-label="Cover"]');
+  function updateBar(){ if(!topbar)return; var ch=cover?cover.offsetHeight:window.innerHeight;
+    if(window.pageYOffset > ch*0.7) topbar.classList.add('show'); else topbar.classList.remove('show'); }
+  window.addEventListener('scroll',updateBar,{passive:true});
+  window.addEventListener('resize',updateBar); updateBar();
+  // current-section label
+  if('IntersectionObserver' in window && current){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){
+      var l=e.target.getAttribute('data-screen-label')||'';
+      if(l && l!=='Cover' && l!=='Contents') current.textContent=l;
+    }});},{rootMargin:'-45% 0px -45% 0px'});
+    [].slice.call(document.querySelectorAll('[data-screen-label]')).forEach(function(s){io.observe(s);});
+  }
+  // build overlay nav from in-page Contents links
+  if(ovNav){
+    [].slice.call(document.querySelectorAll('.toc-link')).forEach(function(a){
+      var sp=a.querySelectorAll('span');
+      var link=document.createElement('a'); link.href=a.getAttribute('href')||'#'; link.className='ov-link';
+      var rn=document.createElement('span'); rn.className='ov-rn'; rn.textContent=sp[0]?sp[0].textContent.trim():'';
+      var ti=document.createElement('span'); ti.className='ov-ti'; ti.textContent=sp[1]?sp[1].textContent.trim():'';
+      var ar=document.createElement('span'); ar.className='ov-ar'; ar.textContent='→';
+      link.appendChild(rn); link.appendChild(ti); link.appendChild(ar); ovNav.appendChild(link);
+    });
+  }
+  function openM(){ if(overlay){ overlay.classList.add('open'); document.body.style.overflow='hidden'; } }
+  function closeM(){ if(overlay){ overlay.classList.remove('open'); document.body.style.overflow=''; } }
+  if(menuBtn) menuBtn.addEventListener('click',openM);
+  if(ovClose) ovClose.addEventListener('click',closeM);
+  if(overlay) overlay.addEventListener('click',function(e){ if(e.target===overlay) closeM(); });
+  if(ovNav) ovNav.addEventListener('click',function(e){ if(e.target.closest('a')) closeM(); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeM(); });
 })();
 </script>
 </body>
