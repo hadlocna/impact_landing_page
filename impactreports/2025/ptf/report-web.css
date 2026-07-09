@@ -117,7 +117,7 @@ sup.fnref a { color: var(--gold); text-decoration: none; font-size: 0.7em; paddi
 .hero.light { background: var(--cream-solid); color: var(--ink); }
 .hero.light .hero__scrim { background: linear-gradient(110deg, rgba(241,233,218,0.96) 0%, rgba(241,233,218,0.55) 55%, rgba(241,233,218,0) 100%); }
 .hero.light .stat, .hero.light h3 { color: var(--teal); }
-.hero.light p { color: var(--ink-soft); }
+.hero.light p { color: var(--ink-soft); max-width: 34ch; }
 .hero.light .kicker { color: var(--gold); }
 
 /* ---------- PULLQUOTE ---------- */
