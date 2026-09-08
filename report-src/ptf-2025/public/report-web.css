@@ -249,7 +249,7 @@ ul.body-list li::before { content: "—"; position: absolute; left: 0; color: va
 
 /* ---------- SPLIT PAGE ---------- */
 .split-page { display: grid; grid-template-columns: 1fr 0.82fr; gap: clamp(28px, 4.5vw, 60px); align-items: center; }
-.split-page.photoR { align-items: center; }
+.split-page.photoR { align-items: start; }
 .split-page .col-text > *:first-child { margin-top: 0; }
 .split-page .col-text .eyebrow { margin-bottom: 14px; }
 
