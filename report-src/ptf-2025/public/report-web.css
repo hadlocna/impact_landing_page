@@ -265,10 +265,11 @@ ul.body-list li::before { content: "—"; position: absolute; left: 0; color: va
    it and continues below — independent of the image's height. */
 .imgflow::after { content: ""; display: block; clear: both; }
 .imgflow > *:first-child { margin-top: 0; }
-.imgflow > .imgflow__fig { float: right; width: min(42%, 440px); margin: 0.35rem 0 1.2rem clamp(28px, 3.5vw, 56px); }
+.imgflow > .imgflow__fig { float: right; width: min(44%, 505px); margin: 0.35rem 0 1.2rem clamp(28px, 3.5vw, 56px); }
 .imgflow > .imgflow__fig.left { float: left; margin: 0.35rem clamp(28px, 3.5vw, 56px) 1.2rem 0; }
+.imgflow > .imgflow__quote { float: left; width: min(46%, 380px); margin: 0.4rem clamp(28px, 3.5vw, 56px) 1.2rem 0; }
 @media (max-width: 860px) {
-  .imgflow > .imgflow__fig, .imgflow > .imgflow__fig.left { float: none; width: 100%; margin: 0 0 1.4rem; }
+  .imgflow > .imgflow__fig, .imgflow > .imgflow__fig.left, .imgflow > .imgflow__quote { float: none; width: 100%; margin: 0 0 1.4rem; }
 }
 
 /* ---------- FIGURES ---------- */
