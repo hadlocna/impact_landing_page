@@ -1,0 +1,8 @@
+# Coolify serves the committed static output; authoring sources are not needed.
+.git
+.github
+report-src
+**/node_modules
+**/.astro
+**/.DS_Store
+**/*.md
